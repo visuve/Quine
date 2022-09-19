@@ -1,7 +1,6 @@
 #include "Resource.h"
 
 #include <windows.h>
-#include <cstdio>
 
 int main()
 {
@@ -10,7 +9,8 @@ int main()
     HGLOBAL resourceHandle = LoadResource(moduleHandle, resourceInfo);
     DWORD resourceSize = SizeofResource(moduleHandle, resourceInfo);
     LPVOID resourceData = LockResource(resourceHandle);
-    fwrite(resourceData, sizeof(char), resourceSize, stdout);
+    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    WriteConsoleA(consoleHandle, resourceData, resourceSize, nullptr, nullptr);
     FreeResource(resourceHandle);
     return 0;
 }
